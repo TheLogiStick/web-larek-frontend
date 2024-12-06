@@ -65,7 +65,7 @@ _Интерфейс корзины_
 ```
 interface IBasket {
 	cards: ICard[];
-	price: number | null;
+	totalPrice: number | null;
 }
 ```
 
@@ -170,7 +170,7 @@ interface IApi {
 В полях класса хранятся следующие данные:
 
 - `cards: ICard[]` - массив карточек в корзине.
-- `price: number | null` - итоговая цена корзины.
+- `totalPrice: number | null` - итоговая цена корзины.
 - `events: IEvents` - экземпляр класса `EventEmitter` для инициализации событий при изменении данных.
 
 - `addCardToBasket(card: ICard): void` - добавляет одну карточку в начало массива.
