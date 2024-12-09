@@ -1,11 +1,12 @@
 // Интерфейс для карточки товара
 export interface ICard {
 	category: string;
-	name: string;
+	title: string;
 	image: string;
 	price: number | null;
 	id: string;
 	description: string;
+	index: string | null;
 }
 
 // Интерфейс корзины
@@ -14,15 +15,28 @@ export interface IBasket {
 	totalPrice: number | null;
 }
 
+// Интерфейс данных каталога
+export interface ICatalogResponse {
+	total: number;
+	items: ICard[];
+}
+
+// Интерфейс каталога
+export interface ICatalog {
+	total: number;
+	cards: ICard[];
+}
+
 // Интерфейс для данных заказа
 export interface IOrder {
+	items: string[];
 	paymentMethod: 'Онлайн' | 'При получении';
-	deliveryAddress: string | null;
-	email: string | null;
-	phone: string | null;
-	totalPrice: number | null;
-	lastTotalPrice: number | null;
-	currentStep: number | null;
+	deliveryAddress: string;
+	email: string;
+	phone: string;
+	totalPrice: number;
+	lastTotalPrice: number;
+	currentStep: number;
 }
 
 // Интерфейс формы заказа
