@@ -31,7 +31,7 @@ export class Card extends Component<ICard> {
 		this.cardCategory = ensureElement<HTMLElement>('.card__category', template);
 		this.cardImage = ensureElement<HTMLImageElement>('.card__image', template);
 		this.cardPrice = ensureElement<HTMLElement>('.card__price', template);
-		this._cardButton = ensureElement<HTMLButtonElement>('.button', template);
+		this._cardButton = ensureElement<HTMLButtonElement>('button', template);
 		this.cardIndex = ensureElement<HTMLElement>(
 			'.basket__item-index',
 			template

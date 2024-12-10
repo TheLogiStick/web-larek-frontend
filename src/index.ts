@@ -6,14 +6,18 @@ import { CardData } from './components/CardData';
 import { Basket } from './components/common/Basket';
 import { Modal } from './components/common/Modal';
 import { Page } from './components/common/Page';
+import { Contacts } from './components/Contacts';
+import { Order } from './components/Order';
+import { OrderData } from './components/OrderData';
 import './scss/styles.scss';
-import { ICard, ICatalogResponse } from './types';
+import { ICard, ICatalogResponse, IOrder } from './types';
 import { API_URL, settings } from './utils/constants';
 import { cloneTemplate, ensureElement } from './utils/utils';
 
 const events = new EventEmitter();
 
 const api = new Api(API_URL, settings);
+const orderData = new OrderData(events);
 const cardsData = new CardData(events);
 const basketData = new BasketData(events);
 
@@ -32,6 +36,14 @@ const cardTemplate: HTMLTemplateElement =
 const basket = new Basket(cloneTemplate(basketTemplate), events);
 
 openBasketButton.addEventListener('click', () => events.emit('basket:open'));
+
+const orderTemplate = ensureElement<HTMLTemplateElement>('#order');
+const contactsTemplate = ensureElement<HTMLTemplateElement>('#contacts');
+const successTemplate = ensureElement<HTMLTemplateElement>('#success');
+
+const order = new Order(cloneTemplate(orderTemplate), events);
+const contacts = new Contacts(cloneTemplate(contactsTemplate), events);
+// const success = new Success(cloneTemplate(orderTemplate))
 
 api
 	.get<ICatalogResponse>('/product')
@@ -82,6 +94,7 @@ events.on('preview:change', (preview: ICard) => {
 });
 
 events.on('basket:open', () => {
+	basket.button = basketData.items.length === 0;
 	modal.render({ content: basket.render() });
 });
 
@@ -113,6 +126,7 @@ events.on('basket:change', () => {
 		return cardBasket.render({ ...item, index: `${index + 1}` });
 	});
 
+	basket.button = basketData.items.length === 0;
 	basket.price = basketData.price;
 });
 
@@ -120,4 +134,34 @@ events.on('remove-from-basket:submit', (card: ICard) => {
 	basketData.deleteItem(card.id);
 	events.emit('basket:change');
 	events.emit('preview:change');
+});
+
+events.on('basket:submit', () => {
+	events.emit('order:open');
+});
+
+events.on('order:open', () => {
+	modal.render({
+		content: order.render({
+			payment: orderData.getOrderField('payment'),
+			address: orderData.getOrderField('address'),
+			valid: false,
+			errors: [],
+		}),
+	});
+});
+
+events.on(
+	/^order\..*:change/,
+	(data: { field: keyof IOrder; value: string }) => {
+		orderData.setOrderField(data.field, data.value);
+	}
+);
+
+events.on('formErrors:change', (errors: Partial<IOrder>) => {
+	const { payment, address } = errors;
+	order.valid = !payment && !address;
+	order.errors = Object.values({ payment, address })
+		.filter((i) => !!i)
+		.join('; ');
 });

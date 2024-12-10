@@ -29,9 +29,9 @@ export interface ICatalog {
 
 // Интерфейс для данных заказа
 export interface IOrder {
-	items: string[];
-	paymentMethod: 'Онлайн' | 'При получении';
-	deliveryAddress: string;
+	items: [];
+	payment: 'card' | 'cash' | null;
+	address: string;
 	email: string;
 	phone: string;
 	totalPrice: number;
@@ -40,7 +40,7 @@ export interface IOrder {
 }
 
 // Интерфейс формы заказа
-export type TFormOrder = Pick<IOrder, 'paymentMethod' | 'deliveryAddress'>;
+export type TFormOrder = Pick<IOrder, 'payment' | 'address'>;
 
 // Интерфейс формы контактов
 export type TFormContacts = Pick<IOrder, 'email' | 'phone'>;

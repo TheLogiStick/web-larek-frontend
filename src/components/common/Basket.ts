@@ -1,9 +1,5 @@
 import { ICard } from '../../types';
-import {
-	createElement,
-	ensureAllElements,
-	ensureElement,
-} from '../../utils/utils';
+import { createElement, ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 import { IEvents } from '../base/events';
 
@@ -16,8 +12,7 @@ interface IBasketView {
 export class Basket extends Component<IBasketView> {
 	protected _list: HTMLElement;
 	protected _price: HTMLElement;
-	protected _button: HTMLElement;
-	protected _indexes: HTMLElement[];
+	protected _button: HTMLButtonElement;
 
 	constructor(protected container: HTMLElement, protected events: IEvents) {
 		super(container);
@@ -25,8 +20,10 @@ export class Basket extends Component<IBasketView> {
 
 		this._list = ensureElement<HTMLElement>('.basket__list', container);
 		this._price = ensureElement<HTMLElement>('.basket__price', container);
-		this._button = ensureElement<HTMLElement>('.basket__button', container);
-		this._indexes = ensureAllElements<any>('.basket__item-index', container);
+		this._button = ensureElement<HTMLButtonElement>(
+			'.basket__button',
+			container
+		);
 
 		this.items = [];
 
@@ -51,5 +48,9 @@ export class Basket extends Component<IBasketView> {
 
 	set price(price: number) {
 		this.setText(this._price, `${price} синапсов`);
+	}
+
+	set button(disabled: boolean) {
+		this.setDisabled(this._button, disabled);
 	}
 }
