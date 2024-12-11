@@ -82,23 +82,23 @@ events.on('card:select', (preview: ICard) => {
 
 events.on('preview:change', (preview: ICard) => {
 	if (preview) {
-		const PreviewCard = new Card(cloneTemplate(templates.previewCard), {
+		const previewCard = new Card(cloneTemplate(templates.previewCard), {
 			onClick: () => {
 				if (basketData.checkItemInBasket(preview.id)) {
-					PreviewCard.buttonText = 'В корзину';
+					previewCard.buttonText = 'В корзину';
 					events.emit('remove-from-basket:submit', preview);
 				} else {
-					PreviewCard.buttonText = 'Убрать из корзины';
+					previewCard.buttonText = 'Убрать из корзины';
 					events.emit('add-to-basket:submit', preview);
 				}
 			},
 		});
 
-		PreviewCard.buttonText = basketData.checkItemInBasket(preview.id)
+		previewCard.buttonText = basketData.checkItemInBasket(preview.id)
 			? 'Удалить из корзины'
 			: 'В корзину';
-		PreviewCard.buttonState = !preview.price;
-		modal.render({ content: PreviewCard.render(preview) });
+		previewCard.buttonState = !preview.price;
+		modal.render({ content: previewCard.render(preview) });
 	}
 });
 
@@ -117,13 +117,11 @@ events.on('add-to-basket:submit', () => {
 	if (card.price) basketData.price = card.price;
 
 	events.emit('basket:change');
-	events.emit('preview:change');
 });
 
 events.on('remove-from-basket:submit', (card: ICard) => {
 	basketData.deleteItem(card.id);
 	events.emit('basket:change');
-	events.emit('preview:change');
 });
 
 events.on('basket:change', () => {
