@@ -36,8 +36,12 @@ export class Card extends Component<ICard> {
 		}
 	}
 
-	set cardButton(text: string) {
+	set buttonText(text: string) {
 		this.setText(this._button, text);
+	}
+
+	set buttonState(disabled: boolean) {
+		this.setDisabled(this._button, disabled);
 	}
 
 	set id(id: string) {

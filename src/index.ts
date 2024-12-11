@@ -85,18 +85,19 @@ events.on('preview:change', (preview: ICard) => {
 		const PreviewCard = new Card(cloneTemplate(templates.previewCard), {
 			onClick: () => {
 				if (basketData.checkItemInBasket(preview.id)) {
-					PreviewCard.cardButton = 'В корзину';
+					PreviewCard.buttonText = 'В корзину';
 					events.emit('remove-from-basket:submit', preview);
 				} else {
-					PreviewCard.cardButton = 'Убрать из корзины';
+					PreviewCard.buttonText = 'Убрать из корзины';
 					events.emit('add-to-basket:submit', preview);
 				}
 			},
 		});
 
-		PreviewCard.cardButton = basketData.checkItemInBasket(preview.id)
+		PreviewCard.buttonText = basketData.checkItemInBasket(preview.id)
 			? 'Удалить из корзины'
 			: 'В корзину';
+		PreviewCard.buttonState = !preview.price;
 		modal.render({ content: PreviewCard.render(preview) });
 	}
 });
@@ -222,6 +223,7 @@ events.on('formContacts:change', (errors: Partial<IOrder>) => {
 
 events.on('contacts:submit', async () => {
 	try {
+		console.log(orderData.order);
 		contacts.valid = false;
 		await appApi.sendOrder(orderData.order);
 
