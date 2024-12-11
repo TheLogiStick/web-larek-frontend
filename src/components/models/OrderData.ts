@@ -1,5 +1,5 @@
-import { IOrder } from '../types';
-import { IEvents } from './base/events';
+import { IOrder } from '../../types';
+import { IEvents } from '../base/events';
 
 export class OrderData {
 	protected _order: IOrder = {
@@ -10,7 +10,6 @@ export class OrderData {
 		phone: '',
 		total: 0,
 	};
-
 	protected formErrors: Partial<Record<keyof IOrder, string>> = {};
 
 	constructor(protected events: IEvents) {}

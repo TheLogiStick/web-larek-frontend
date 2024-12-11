@@ -1,31 +1,26 @@
 // Интерфейс для карточки товара
 export interface ICard {
-	category: string;
 	title: string;
+	description: string;
+	category: string;
 	image: string;
 	price: number | null;
 	id: string;
-	description: string;
 	index: string | null;
 }
 
-// Интерфейс корзины
-export interface IBasket {
-	cards: ICard[];
-	totalPrice: number | null;
-}
-
-// Интерфейс данных каталога
-export interface ICatalogResponse {
-	total: number;
-	items: ICard[];
-}
-
 // Интерфейс каталога
-export interface ICatalog {
+export interface ICardsData {
 	total: number;
 	cards: ICard[];
 	preview: ICard;
+}
+
+// Интерфейс корзины
+export interface IBasketData {
+	items: ICard[];
+	total: number;
+	price: number;
 }
 
 // Интерфейс для данных заказа
@@ -39,10 +34,10 @@ export interface IOrder {
 }
 
 // Интерфейс формы заказа
-export type TFormOrder = Pick<IOrder, 'payment' | 'address'>;
+export type TOrderForm = Pick<IOrder, 'payment' | 'address'>;
 
 // Интерфейс формы контактов
-export type TFormContacts = Pick<IOrder, 'email' | 'phone'>;
+export type TContactsForm = Pick<IOrder, 'email' | 'phone'>;
 
 // Интерфейс методов запроса к серверу
 export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE' | 'PATCH';

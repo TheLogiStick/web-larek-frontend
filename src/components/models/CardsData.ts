@@ -1,7 +1,7 @@
-import { ICard, ICatalog } from '../types';
-import { IEvents } from './base/events';
+import { ICard, ICardsData } from '../../types';
+import { IEvents } from '../base/events';
 
-export class CardData implements ICatalog {
+export class CardsData implements ICardsData {
 	protected _cards: ICard[];
 	protected _total: number;
 	preview: ICard;
@@ -25,7 +25,7 @@ export class CardData implements ICatalog {
 		return this._total;
 	}
 
-	getCard(cardId: string) {
+	getCard(cardId: string): ICard {
 		return this._cards.find((item) => item.id === cardId);
 	}
 

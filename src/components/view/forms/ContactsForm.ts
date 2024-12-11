@@ -1,8 +1,8 @@
-import { TFormContacts } from '../types';
-import { IEvents } from './base/events';
-import { Form } from './common/Form';
+import { TContactsForm } from '../../../types';
+import { IEvents } from '../../base/events';
+import { Form } from '../../view/Form';
 
-export class Contacts extends Form<TFormContacts> {
+export class ContactsForm extends Form<TContactsForm> {
 	protected _email: HTMLInputElement;
 	protected _phone: HTMLInputElement;
 

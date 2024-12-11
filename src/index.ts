@@ -1,15 +1,15 @@
-import { AppApi } from './components/AppApi';
+import { AppApi } from './components/base/AppApi';
 import { EventEmitter } from './components/base/events';
-import { BasketData } from './components/BasketData';
-import { Card } from './components/Card';
-import { CardData } from './components/CardData';
-import { Basket } from './components/common/Basket';
-import { Modal } from './components/common/Modal';
-import { Page } from './components/common/Page';
-import { Contacts } from './components/Contacts';
-import { Order } from './components/Order';
-import { OrderData } from './components/OrderData';
-import { Success } from './components/Success';
+import { BasketData } from './components/models/BasketData';
+import { CardsData } from './components/models/CardsData';
+import { OrderData } from './components/models/OrderData';
+import { Basket } from './components/view/Basket';
+import { Card } from './components/view/Card';
+import { ContactsForm } from './components/view/forms/ContactsForm';
+import { OrderForm } from './components/view/forms/OrderForm';
+import { Modal } from './components/view/Modal';
+import { Page } from './components/view/Page';
+import { Success } from './components/view/Success';
 import './scss/styles.scss';
 import { ICard, IOrder } from './types';
 import { API_URL, CDN_URL, settings } from './utils/constants';
@@ -20,7 +20,7 @@ import { cloneTemplate, ensureElement } from './utils/utils';
 const events = new EventEmitter();
 
 const orderData = new OrderData(events);
-const cardsData = new CardData(events);
+const cardsData = new CardsData(events);
 const basketData = new BasketData(events);
 
 const page = new Page(document.body, events);
@@ -37,8 +37,8 @@ const templates = {
 };
 
 const basket = new Basket(cloneTemplate(templates.basket), events);
-const order = new Order(cloneTemplate(templates.order), events);
-const contacts = new Contacts(cloneTemplate(templates.contacts), events);
+const order = new OrderForm(cloneTemplate(templates.order), events);
+const contacts = new ContactsForm(cloneTemplate(templates.contacts), events);
 
 // Инициализация API
 
@@ -223,7 +223,6 @@ events.on('formContacts:change', (errors: Partial<IOrder>) => {
 
 events.on('contacts:submit', async () => {
 	try {
-		console.log(orderData.order);
 		contacts.valid = false;
 		await appApi.sendOrder(orderData.order);
 
@@ -232,6 +231,7 @@ events.on('contacts:submit', async () => {
 		basketData.clearBasket();
 		orderData.clearOrderData();
 	} catch {
+		contacts.valid = true;
 		console.error('Ошибка при оформлении заказа');
 	}
 });

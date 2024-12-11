@@ -1,6 +1,6 @@
-import { ICard } from '../types';
-import { ensureElement, isEmpty } from '../utils/utils';
-import { Component } from './base/Component';
+import { ICard } from '../../types';
+import { ensureElement, isEmpty } from '../../utils/utils';
+import { Component } from '../base/Component';
 
 interface ICardActions {
 	onClick: (event: MouseEvent) => void;

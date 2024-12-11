@@ -1,5 +1,5 @@
-import { ICard, IOrder } from '../types';
-import { Api } from './base/api';
+import { ICard, IOrder } from '../../types';
+import { Api } from './api';
 
 export type TCardListResponse<Type> = {
 	total: number;

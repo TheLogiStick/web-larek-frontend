@@ -1,8 +1,8 @@
-import { TFormOrder } from '../types';
-import { IEvents } from './base/events';
-import { Form } from './common/Form';
+import { TOrderForm } from '../../../types';
+import { IEvents } from '../../base/events';
+import { Form } from '../../view/Form';
 
-export class Order extends Form<TFormOrder> {
+export class OrderForm extends Form<TOrderForm> {
 	protected _card: HTMLButtonElement;
 	protected _cash: HTMLButtonElement;
 	protected _address: HTMLInputElement;
