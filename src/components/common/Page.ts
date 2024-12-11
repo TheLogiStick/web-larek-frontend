@@ -1,4 +1,3 @@
-import { ICard } from '../../types';
 import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 import { IEvents } from '../base/events';
@@ -15,9 +14,7 @@ export class Page extends Component<IPage> {
 	protected _counter: HTMLElement;
 	protected _openBasketButton: HTMLButtonElement;
 
-	preview: ICard;
-
-	constructor(container: HTMLElement, protected events: IEvents) {
+	constructor(container: HTMLElement, events: IEvents) {
 		super(container);
 
 		this._catalog = ensureElement<HTMLElement>('.gallery');

@@ -1,24 +1,12 @@
 import { ICard, ICatalog } from '../types';
 import { IEvents } from './base/events';
 
-// export interface IItem {
-// 	category: string;
-// 	description: string;
-// 	id: string;
-// 	image: string;
-// 	price: number | null;
-// 	title: string;
-// }
-
 export class CardData implements ICatalog {
 	protected _cards: ICard[];
-	protected events: IEvents;
 	protected _total: number;
-	protected preview: ICard;
+	preview: ICard;
 
-	constructor(events: IEvents) {
-		this.events = events;
-	}
+	constructor(protected events: IEvents) {}
 
 	set cards(items: ICard[]) {
 		this._cards = items;
@@ -31,6 +19,10 @@ export class CardData implements ICatalog {
 
 	set total(total: number) {
 		this._total = total;
+	}
+
+	get total() {
+		return this._total;
 	}
 
 	getCard(cardId: string) {

@@ -2,12 +2,12 @@ import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 import { IEvents } from '../base/events';
 
-interface IModalData {
+interface IModal {
 	content: HTMLElement;
 }
 
-export class Modal extends Component<IModalData> {
-	protected closeButton: HTMLButtonElement;
+export class Modal extends Component<IModal> {
+	protected _closeButton: HTMLButtonElement;
 	protected _content: HTMLElement;
 	protected _escKeyListener: (event: KeyboardEvent) => void;
 
@@ -15,7 +15,7 @@ export class Modal extends Component<IModalData> {
 		super(container);
 		this.events = events;
 
-		this.closeButton = ensureElement<HTMLButtonElement>(
+		this._closeButton = ensureElement<HTMLButtonElement>(
 			'.modal__close',
 			container
 		);
@@ -25,13 +25,13 @@ export class Modal extends Component<IModalData> {
 			if (event.key === 'Escape') this.close();
 		};
 
-		this.closeButton.addEventListener('click', this.close.bind(this));
+		this._closeButton.addEventListener('click', this.close.bind(this));
 		this.container.addEventListener('click', this.close.bind(this));
 		this._content.addEventListener('click', (event) => event.stopPropagation());
 	}
 
 	set content(value: HTMLElement | null) {
-		if (value) this._content.replaceChildren(value);
+		this._content.replaceChildren(value);
 	}
 
 	open() {
@@ -47,7 +47,7 @@ export class Modal extends Component<IModalData> {
 		this.events.emit('modal:close');
 	}
 
-	render(data: IModalData): HTMLElement {
+	render(data: IModal): HTMLElement {
 		super.render(data);
 		this.open();
 		return this.container;

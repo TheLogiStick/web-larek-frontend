@@ -2,6 +2,7 @@ import { ICard } from '../types';
 import { IEvents } from './base/events';
 
 interface IBasketData {
+	items: ICard[];
 	total: number;
 	price: number;
 }
@@ -10,9 +11,8 @@ export class BasketData implements IBasketData {
 	protected _items: ICard[];
 	protected _total: number;
 	protected _price: number;
-	protected events: IEvents;
 
-	constructor(events: IEvents) {
+	constructor(protected events: IEvents) {
 		this._items = [];
 		this.events = events;
 		this._total = 0;

@@ -3,20 +3,19 @@ import { createElement, ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 import { IEvents } from '../base/events';
 
-interface IBasketView {
+interface IBasket {
 	items: ICard[];
 	price: number;
 	selected: string[];
 }
 
-export class Basket extends Component<IBasketView> {
+export class Basket extends Component<IBasket> {
 	protected _list: HTMLElement;
 	protected _price: HTMLElement;
 	protected _button: HTMLButtonElement;
 
-	constructor(protected container: HTMLElement, protected events: IEvents) {
+	constructor(protected container: HTMLElement, events: IEvents) {
 		super(container);
-		this.events = events;
 
 		this._list = ensureElement<HTMLElement>('.basket__list', container);
 		this._price = ensureElement<HTMLElement>('.basket__price', container);
@@ -38,12 +37,6 @@ export class Basket extends Component<IBasketView> {
 						textContent: 'Корзина пуста',
 					})
 			  );
-	}
-
-	set selected(items: string[]) {
-		items.length
-			? this.setDisabled(this._button, false)
-			: this.setDisabled(this._button, true);
 	}
 
 	set price(price: number) {

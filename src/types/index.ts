@@ -25,6 +25,7 @@ export interface ICatalogResponse {
 export interface ICatalog {
 	total: number;
 	cards: ICard[];
+	preview: ICard;
 }
 
 // Интерфейс для данных заказа

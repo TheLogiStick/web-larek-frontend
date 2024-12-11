@@ -1,12 +1,8 @@
+import { TFormOrder } from '../types';
 import { IEvents } from './base/events';
 import { Form } from './common/Form';
 
-export interface IOrderForm {
-	payment: 'card' | 'cash' | null;
-	address: string;
-}
-
-export class Order extends Form<IOrderForm> {
+export class Order extends Form<TFormOrder> {
 	protected _card: HTMLButtonElement;
 	protected _cash: HTMLButtonElement;
 	protected _address: HTMLInputElement;

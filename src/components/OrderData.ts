@@ -1,14 +1,8 @@
 import { IOrder } from '../types';
 import { IEvents } from './base/events';
 
-interface IAppState {
-	order: IOrder;
-}
-
-export type FormErrors = Partial<Record<keyof IOrder, string>>;
-
-export class OrderData implements IAppState {
-	private _order: IOrder = {
+export class OrderData {
+	protected _order: IOrder = {
 		items: [],
 		payment: null,
 		address: '',
@@ -16,12 +10,12 @@ export class OrderData implements IAppState {
 		phone: '',
 		total: 0,
 	};
-	private formErrors: FormErrors = {};
+
+	protected formErrors: Partial<Record<keyof IOrder, string>> = {};
 
 	constructor(protected events: IEvents) {}
 
-	// Геттер для полного объекта order
-	get order(): IOrder {
+	get order() {
 		return this._order;
 	}
 
@@ -29,31 +23,54 @@ export class OrderData implements IAppState {
 		return this._order[field];
 	}
 
-	setOrderField<K extends keyof IOrder>(field: K, value: IOrder[K]): void {
+	setOrderField<K extends keyof IOrder>(field: K, value: IOrder[K]) {
 		this._order[field] = value;
 	}
 
-	validateOrder() {
-		const errors: typeof this.formErrors = {};
+	validate<K extends keyof IOrder>(
+		field: K,
+		errorMessage: string,
+		formType: string
+	) {
+		const errors: typeof this.formErrors = { ...this.formErrors };
 
-		if (!this.order.payment)
-			errors.payment = 'Необходимо выбрать способ оплаты';
-		if (!this.order.address) errors.address = 'Необходимо ввести адресс';
+		if (!this._order[field]) {
+			errors[field] = errorMessage;
+		} else {
+			delete errors[field];
+		}
 
 		this.formErrors = errors;
-		this.events.emit('formErrors:change', this.formErrors);
-		return Object.keys(errors).length === 0;
+		this.events.emit(`${formType}:change`, errors);
+		return !errors[field];
+	}
+
+	validateOrder() {
+		const isPaymentValid = this.validate(
+			'payment',
+			'Необходимо выбрать способ оплаты',
+			'formOrder'
+		);
+		const isAddressValid = this.validate(
+			'address',
+			'Необходимо ввести адрес',
+			'formOrder'
+		);
+		return isPaymentValid && isAddressValid;
 	}
 
 	validateContacts() {
-		const errors: typeof this.formErrors = {};
-
-		if (!this.order.email) errors.email = 'Необходимо ввести почту';
-		if (!this.order.phone) errors.phone = 'Необходимо ввести номер телефона';
-
-		this.formErrors = errors;
-		this.events.emit('formContacts:change', this.formErrors);
-		return Object.keys(errors).length === 0;
+		const isEmailValid = this.validate(
+			'email',
+			'Необходимо ввести почту',
+			'formContacts'
+		);
+		const isPhoneValid = this.validate(
+			'phone',
+			'Необходимо ввести номер телефона',
+			'formContacts'
+		);
+		return isEmailValid && isPhoneValid;
 	}
 
 	clearOrderData() {
