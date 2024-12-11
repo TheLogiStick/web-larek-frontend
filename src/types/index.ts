@@ -29,14 +29,12 @@ export interface ICatalog {
 
 // Интерфейс для данных заказа
 export interface IOrder {
-	items: [];
+	items: string[];
 	payment: 'card' | 'cash' | null;
 	address: string;
 	email: string;
 	phone: string;
-	totalPrice: number;
-	lastTotalPrice: number;
-	currentStep: number;
+	total: number;
 }
 
 // Интерфейс формы заказа

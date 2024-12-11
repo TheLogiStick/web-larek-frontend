@@ -14,6 +14,7 @@ export class CardData implements ICatalog {
 	protected _cards: ICard[];
 	protected events: IEvents;
 	protected _total: number;
+	protected preview: ICard;
 
 	constructor(events: IEvents) {
 		this.events = events;
@@ -34,5 +35,10 @@ export class CardData implements ICatalog {
 
 	getCard(cardId: string) {
 		return this._cards.find((item) => item.id === cardId);
+	}
+
+	setPreview(card: ICard) {
+		this.preview = card;
+		this.events.emit('preview:change', this.preview);
 	}
 }

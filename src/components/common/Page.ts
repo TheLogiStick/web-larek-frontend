@@ -13,6 +13,8 @@ export class Page extends Component<IPage> {
 	protected _catalog: HTMLElement;
 	protected _wrapper: HTMLElement;
 	protected _counter: HTMLElement;
+	protected _openBasketButton: HTMLButtonElement;
+
 	preview: ICard;
 
 	constructor(container: HTMLElement, protected events: IEvents) {
@@ -21,6 +23,12 @@ export class Page extends Component<IPage> {
 		this._catalog = ensureElement<HTMLElement>('.gallery');
 		this._wrapper = ensureElement<HTMLElement>('.page__wrapper');
 		this._counter = ensureElement<HTMLElement>('.header__basket-counter');
+		this._openBasketButton =
+			ensureElement<HTMLButtonElement>('.header__basket');
+
+		this._openBasketButton.addEventListener('click', () =>
+			events.emit('basket:open')
+		);
 	}
 
 	set catalog(items: HTMLElement[]) {
@@ -35,10 +43,5 @@ export class Page extends Component<IPage> {
 
 	set counter(value: number) {
 		this.setText(this._counter, value);
-	}
-
-	setPreview(card: ICard) {
-		this.preview = card;
-		this.events.emit('preview:change', this.preview);
 	}
 }

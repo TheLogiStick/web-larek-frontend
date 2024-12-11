@@ -15,7 +15,7 @@ export class Form<T> extends Component<IFormState> {
 		super(container);
 
 		this._submit = ensureElement<HTMLButtonElement>(
-			'.button__submit',
+			'button[type=submit]',
 			this.container
 		);
 		this._errors = ensureElement<HTMLElement>('.form__errors', this.container);

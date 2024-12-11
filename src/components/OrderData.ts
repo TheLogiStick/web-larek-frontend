@@ -14,9 +14,7 @@ export class OrderData implements IAppState {
 		address: '',
 		email: '',
 		phone: '',
-		totalPrice: 0,
-		lastTotalPrice: 0,
-		currentStep: 0,
+		total: 0,
 	};
 	private formErrors: FormErrors = {};
 
@@ -33,10 +31,6 @@ export class OrderData implements IAppState {
 
 	setOrderField<K extends keyof IOrder>(field: K, value: IOrder[K]): void {
 		this._order[field] = value;
-
-		if (this.validateOrder()) {
-			this.events.emit('order:valid', this.order);
-		}
 	}
 
 	validateOrder() {
@@ -44,10 +38,32 @@ export class OrderData implements IAppState {
 
 		if (!this.order.payment)
 			errors.payment = 'Необходимо выбрать способ оплаты';
-		if (!this.order.address) errors.address = 'Необходимо указать адресс';
+		if (!this.order.address) errors.address = 'Необходимо ввести адресс';
 
 		this.formErrors = errors;
 		this.events.emit('formErrors:change', this.formErrors);
 		return Object.keys(errors).length === 0;
+	}
+
+	validateContacts() {
+		const errors: typeof this.formErrors = {};
+
+		if (!this.order.email) errors.email = 'Необходимо ввести почту';
+		if (!this.order.phone) errors.phone = 'Необходимо ввести номер телефона';
+
+		this.formErrors = errors;
+		this.events.emit('formContacts:change', this.formErrors);
+		return Object.keys(errors).length === 0;
+	}
+
+	clearOrderData() {
+		this._order = {
+			items: [],
+			payment: null,
+			address: '',
+			email: '',
+			phone: '',
+			total: 0,
+		};
 	}
 }

@@ -56,4 +56,12 @@ export class BasketData implements IBasketData {
 	get price() {
 		return this._price;
 	}
+
+	clearBasket() {
+		this._items = [];
+		this._total = 0;
+		this._price = 0;
+
+		this.events.emit('basket:change');
+	}
 }
