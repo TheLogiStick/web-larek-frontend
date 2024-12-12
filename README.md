@@ -526,6 +526,7 @@ class MyComponent extends Component<MyData> {
 - `set title(title: string)` - устанавливает заголовок товара.
 - `set description(desc: string)` - устанавливает описание товара.
 - `set category(category: string)` - устанавливает категорию товара.
+- `setCategoryColor(category: string, categoriesCards: { [key: string]: string })` - устанавливает цвет элемента категории товара.
 - `set image(value: string)` - устанавливает изображение товара, задавая его URL и альтернативный текст.
 - `set price(price: string)` - устанавливает цену товара. Если цена пустая, отображается "бесценно".
 - `set index(index: number)` - устанавливает индекс карточки.
@@ -560,7 +561,7 @@ class MyComponent extends Component<MyData> {
 1. **Каталог товаров (`catalog:loaded`):**
 
    - После успешной загрузки каталога, отображаются карточки товаров на странице.
-   - Для каждой карточки создается экземпляр компонента `Card`, и добавляется обработчик события `card:select`.
+   - Для каждой карточки создается экземпляр компонента `Card`, задается цвет категории и добавляется обработчик события `card:select`.
 
 2. **Модальное окно (`modal:open`, `modal:close`):**
 
@@ -570,7 +571,7 @@ class MyComponent extends Component<MyData> {
 3. **Превью товара (`card:select`, `preview:change`):**
 
    - При выборе карточки в каталоге отображается превью товара в модальном окне.
-   - Обновляется текст и состояние кнопки добавления/удаления товара из корзины.
+   - Обновляется текст, цвет категории и состояние кнопки добавления/удаления товара из корзины.
 
 4. **Корзина (`basket:open`, `add-to-basket:submit`, `remove-from-basket:submit`, `basket:change`):**
 

@@ -77,4 +77,15 @@ export class Card extends Component<ICard> {
 	set index(index: number) {
 		this.setText(this._index, index);
 	}
+
+	setCategoryColor(
+		category: string,
+		categoriesCards: { [key: string]: string }
+	) {
+		const categorySuffix =
+			Object.keys(categoriesCards).find(
+				(key) => categoriesCards[key] === category
+			) || 'other';
+		this._category.classList.add(`card__category_${categorySuffix}`);
+	}
 }

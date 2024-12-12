@@ -12,7 +12,7 @@ import { Page } from './components/view/Page';
 import { Success } from './components/view/Success';
 import './scss/styles.scss';
 import { ICard, IOrder } from './types';
-import { API_URL, CDN_URL, settings } from './utils/constants';
+import { API_URL, categoriesCards, CDN_URL, settings } from './utils/constants';
 import { cloneTemplate, ensureElement } from './utils/utils';
 
 // Инициализация компонентов
@@ -65,6 +65,7 @@ events.on('catalog:loaded', () => {
 			onClick: () => events.emit('card:select', cardData),
 		});
 
+		card.setCategoryColor(cardData.category, categoriesCards);
 		return card.render(cardData);
 	});
 });
@@ -98,6 +99,7 @@ events.on('preview:change', (preview: ICard) => {
 			? 'Удалить из корзины'
 			: 'В корзину';
 		previewCard.buttonState = !preview.price;
+		previewCard.setCategoryColor(preview.category, categoriesCards);
 		modal.render({ content: previewCard.render(preview) });
 	}
 });
